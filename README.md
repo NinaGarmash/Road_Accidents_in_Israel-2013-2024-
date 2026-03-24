@@ -1,155 +1,140 @@
-# Road Accidents in Israel (2013–2024) 
+# E-Scooter Crash Exploration — Tel Aviv (Phase 3)
 
-**Data:**  
-Over 4.6 GB of road accident data from 01.01.2013 to 31.08.2024 (Central Bureau of Statistics). 
+**E-Scooter Safety Analytics · Phase 3 of 4**
+Part of a longitudinal multi-phase research project on micro-mobility safety in Israel.
+Presented at ISTRC Conference, Technion, January 2026.
 
-**Objective:**  
-Analyze seasonal trends, geographical distribution, demographic factors, and injury severity to recommend measures for reducing accident risk and severity.
+---
 
-**Tools:**  
-Power Query, Power BI
+## Live demo
 
-**Results:**  
-- Identified yearly, monthly, weekly, and daily patterns in road accidents.  
-- Mapped high-risk accident locations for different vehicle types.  
-- Analyzed relationships between demographic factors (age, gender) and accident severity.  
-- Calculated fatality rates by vehicle type and their changes over time.  
-- Defined patterns specific to different vehicle types (e.g., electric scooters).  
-- Provided data-driven safety recommendations.  
+🏆 **[Maven Analytics showcase](https://mavenshowcase.com/project/53880)**
 
+---
 
-## Methodology  
-**Data Sources:** Three files containing accident logs, participant details, and vehicle data.  
-**Preprocessing:** Used Power Query to clean, merge, and structure data into a single schema.  
-**Calculated Fields:** Created fatality rate metrics and grouped vehicle types for analysis.  
-**Analysis Approach:** Started with an overview, then drilled down into specific patterns and categories. A deep dive into electric scooter accidents was included.
+## What this report covers
 
+A focused crash exploration of **e-scooters only** in Tel Aviv, using the full CBS microdata from 2013 through 2025. This phase introduced QGIS-based spatial analysis (Tel Aviv quarters and street-level mapping) and produced the foundational data model that Phase 4 builds on.
 
+This repo contains **two sub-stages** captured as git tags:
 
-## Key Findings  
-**1. Road Accident Overview (2013–2024)**  
-- Total accidents analyzed: 1.173 million  
-- Total vehicles involved: 2 million  
-- Fatal cases: 6,000 (0.55%) of all recorded accidents.
-  
+| Tag | Scope | Data cut | Notes |
+|---|---|---|---|
+| `v3a` | E-scooters in Tel Aviv vs other micromobility modes and national data | CBS 2013–Jun 2025 | Original ISTRC submission version |
+| `v3b` | Same scope, full 2025 calendar year | CBS 2013–Dec 2025 | Updated after year-end data release |
 
-**2. Yearly Trend**  
-- Overall decline in the number of road accidents in Israel from 2013 to 2024.  
-- Significant drop in 2020 likely due to COVID-19 restrictions.
-  
-**3. Monthly Trends (2023 Data)**
-📈 Summer Spike: Accidents peak during the summer due to increased travel.
-📉 Holidays & Shabbat: Fewer accidents occur during religious holidays and on Saturdays.
-⚠️ October 2023 Drop: Likely linked to the war events following October 7th and autumn holidays.
+| Attribute | Value |
+|---|---|
+| **Geography** | Tel Aviv–Yafo |
+| **Years** | 2013–2025 (full calendar years) |
+| **Total accidents** | 9,769 |
+| **Total people involved** | 19,613 |
+| **Vehicle type** | E-Scooter (CBS code 21) only |
+| **Tool** | Power BI Desktop + QGIS |
+| **Data sources** | CBS Israel crash microdata |
 
-**4. Accidents by Day of the Week**  
-- Highest accident rates: Sundays (for most vehicle types).  
-- Lowest accident rates: Shabbat (Saturday) across all vehicle types.  
-  Exceptions:  
-  - Motorcycles: Most accidents on Thursdays.  
-  - Tractors: Most accidents on Fridays.
-    
-**5. Accidents by Time of Day**  
-📈 Rush Hour Risks:
-- Peak accident times: 8 AM and 4 PM (morning and evening rush hours).  
-  Exceptions:  
-  - Tractors: Most accidents at 1 AM.  
-  - Trains & Cargo Vehicles: Peak at 12 PM.
-    
-**6. Geographical Distribution**
-      
-Top 10 cities with the highest accident rates (2013–2024):
-- Tel Aviv  
-- Jerusalem  
-- Haifa  
-- Be’er Sheva  
-- Rishon LeZion  
-- Petah Tikva  
-- Ashdod  
-- Holon  
-- Ashkelon  
-- Netanya  
-🔹 Central Israel has the highest accident concentration due to high population and traffic density.
+---
 
-**7. Demographic Factors (2023 Data)**  
-🚨 Age:
-- Drivers: 20–30 years old most frequently injured.  
-- Non-drivers: Younger individuals (ages 5–19) are more frequently involved.
-   
-🚹 Gender:
-- Male drivers are involved in more accidents than females.  
-- Male drivers cause more severe accidents than female drivers.  
+## Key findings
 
-**8. Accident Severity Analysis**  
-- Minor injuries: 96.1%  
-- Serious injuries: 3.3%  
-- Fatal injuries: 0.55%
-  
-📈 Fatality Rate in 2024 vs. 2023:
-0.89% (2024) vs. 0.63% (2023) → 1.5x increase in fatal accidents in the first 8 months of 2024. 
+- **9,769 e-scooter accidents** in Tel Aviv across 2013–2025 — crash volume rose sharply from 486 (2013) to a peak of 886 (2022)
+- Crash classification: **583 solo** (6%) · **8,882 two-party** (91%) · **304 multi-party** (3%)
+- **Solo crash underreporting**: CBS solo rate (~8–12%) vs Tel Aviv rider survey (~69–77%) — CBS captures only ~5% of real solo crash events
+- **Volume ≠ Severity** confirmed at e-scooter level: high-volume years/locations are not the same as high-severity ones
+- **QGIS analysis**: crash density mapped at Tel Aviv quarter level (9 quarters) and at individual street level
+- **AI visuals**: Key Influencers identifies overturning as a 4.77× severity multiplier
 
-🚨 Further investigation & targeted safety measures needed.  
+### Crash volume by year
 
-**9. Vehicle Type vs. Injury Severity**  
-🚗 Private passenger cars & taxis: 
-- 70% of all accidents.  
-- Lowest fatality rate: 0.42% (2013–2023).
+| Year | Accidents | Solo |
+|---|---|---|
+| 2019 | 787 | 40 |
+| 2020 | 799 | 64 |
+| 2021 | 842 | 70 |
+| 2022 | 886 | 79 |
+| 2023 | 740 | 64 |
+| 2024 | 845 | 58 |
+| 2025 | 796 | 51 |
 
-🚜 Tractors:
-- Highest fatality rate of all vehicle types (2013–2024).  
-🛴 Electric Scooters:
-- 2013: Highest fatality rate among all vehicles.  
-- 2023: Lowest fatality rate.
-  
-📉 Fatality risk for specific vehicle types changes over time.
+---
 
-**10. Electric Scooters: Accident Overview (2013–2024)**  
-- Total accidents: 6,879  
-- Total vehicles involved: 11,000  
-- Total people involved: 13,775  
-- Fatal cases: 54 (0.78%)
-   
-📊 Demographics:
-More young riders (15–19 years old) are involved in scooter accidents.  
-📈 Trend:
-8x increase in scooter accidents from 2013 to 2023 due to rising scooter usage.
- 
-Despite growth, fatality rate declined significantly.  
+## Data model
 
+The model contains **54 tables** structured with strict prefixes:
 
-🔹 **Key insight: Electric scooters were the most dangerous vehicle type in 2013 but became the least dangerous in 2023.**
+| Prefix | Purpose |
+|---|---|
+| `fact_` | Core CBS data — `fact_Accidents`, `fact_Involved`, `fact_Vehicles` |
+| `dim_` | Dimension/lookup tables — calendar, vehicle type, quarters, streets |
+| `&` | Calculated bridge/helper tables (party count pipeline, matrix filters) |
+| `_Measures` | All DAX measures (single table) |
+| `survey_` | Tel Aviv Municipality survey data |
+| `enforcement_` | Tel Aviv Police enforcement records |
 
-## Conclusions  
+### Party count pipeline (do not modify)
+`&BaseAccidentPartySummary → &MultiPartyIDs → &AccidentMatrixSource → &MatrixAccidentIDs → fact_Accidents[PartyCount]`
 
-✅ Overall Trend: Road accidents in Israel declined from 2013 to 2024, with a sharp drop in 2020 (COVID-19).
+---
 
-✅ Temporal Patterns:
-- More accidents in summer and fewer on holidays/Shabbat.  
-- Sundays & rush hours have higher accident rates.
-  
-✅ Geographic Risks: Major cities (Tel Aviv, Jerusalem, Haifa) are accident hotspots.
+## Key data corrections applied
 
-✅ Demographics:
-- Male drivers cause more severe accidents.  
-- Young drivers (20–30) are most at risk.  
-- Children and teenagers (5–19) are vulnerable as non-drivers.
-  
-✅ Vehicle Risks:
-- Tractors have the highest fatality rate.  
-- Passenger cars are the safest.  
-- Electric scooter fatalities dropped over time despite increased usage.  
+These are permanent calculated columns/expressions in the model — do not revert:
 
-## Recommendations  
-🚧 Infrastructure Improvements:
-Enhance road safety for high-risk vehicles (scooters, motorcycles).  
+| Item | Fix |
+|---|---|
+| `fact_Involved[Safety Measures Label]` | CBS code for belt (impossible for e-scooters) → recoded to Helmet for vehicle types 15/21/23 · 141 rows corrected |
+| `fact_Accidents[PartyCount]` | New column: solo=1, two-party=2, multi-party=3 |
+| `&BaseAccidentPartySummary` | Pedestrian count fixed to MIN(1, n) — prevents overcounting |
+| `&MatrixAccidentIDs` | Multi-party IDs added; BothDirections cross-filter on 2 relationships |
 
-📢 Targeted Interventions:
-Safety campaigns for male drivers, young scooter riders, and elderly pedestrians.  
+Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
 
-⚖️ Policy & Behavior Changes:
-Stronger helmet laws & road safety education.  
-Better traffic management during rush hours.  
+---
 
-📅 Seasonal Focus:
-Implement targeted safety measures for weekends, holidays, and high-risk hours.  
+## Files in this repo
+
+```
+Road_Accidents_in_Israel-2013-2024/
+├── README.md                         ← this file
+├── CHANGELOG.md                      ← version history
+├── pbix/
+│   └── escooter_TA_new_[date].pbix   ← Power BI Desktop report
+├── data/
+│   └── Solo_vs_TwoParty_FINAL.csv
+│   └── Rider_Demographics_Solo_vs_TwoParty.csv
+└── docs/
+    └── raw_data_change_log.md
+    └── dax_query_patterns.md
+    └── PROJECT_CONTEXT.md
+```
+
+---
+
+## Data sources
+
+**CBS Israel** — Central Bureau of Statistics road accident microdata.
+Available at: [data.gov.il](https://data.gov.il/dataset/road_accidents_with_casualties_israel)
+Scope: All Tel Aviv–Yafo e-scooter accidents (vehicle_type = 21), 2013–2025.
+
+---
+
+## How this fits into the project
+
+```
+Phase 1  →  Phase 2  →  Phase 3a/3b  →  Phase 4
+National     Tel Aviv     Tel Aviv         Tel Aviv
+all modes    micromobility  e-scooters     full integration
+                           (this repo)    + surveys + enforcement
+```
+
+← **Phase 2**: [TLV_Micromobility_Phase2](../TLV_Micromobility_Phase2)
+→ **Phase 4**: [Escooter_TLV_Safety_Phase4](../Escooter_TLV_Safety_Phase4)
+
+---
+
+## Author
+
+**Nina Garmash, PhD**
+ANYWAY Project (DATA FOR CHANGE) · HIT (Holon Institute of Technology)
+[LinkedIn](https://www.linkedin.com/in/nina-garmash) · [Portfolio](https://ninagarmash.wixsite.com/data-showcase)
 
