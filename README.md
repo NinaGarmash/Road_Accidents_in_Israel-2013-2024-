@@ -104,8 +104,8 @@ Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
 
 > **Power BI files (.pbix) are not stored in this repo** due to file size (200+ MB).
 > Download links:
-> - **Phase 3a** (`escooter_TA_jan6_datadct_presented!.pbix`): _[add OneDrive/Drive link]_
-> - **Phase 3b** (`escooter_TA_upd_0218_noQA.pbix`): _[add OneDrive/Drive link]_
+> - **Phase 3a** (`escooter_TA_jan6_datadct_presented!.pbix`): [Download](https://1drv.ms/u/c/52d6cdf6c3e9894b/IQC9Nq_ki1O7SqYnUjclpe06AU2I56ePwlaWNwzokUWMFBI?e=F1Ai36)
+> - **Phase 3b** (`escooter_TA_upd_0218_noQA.pbix`): [Download](https://1drv.ms/u/c/52d6cdf6c3e9894b/IQDMXQhTmmNISbaw4dqk5CxVAX6SE6758wyWlgIUiIocd-A?e=os5NsL)
 >
 > Maven Analytics showcase (interactive): [mavenshowcase.com/project/53880](https://mavenshowcase.com/project/53880)
 ---
