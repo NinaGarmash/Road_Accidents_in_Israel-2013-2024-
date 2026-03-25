@@ -2,7 +2,11 @@
 
 **E-Scooter Safety Analytics · Phase 3 of 4**
 Part of a longitudinal multi-phase research project on micro-mobility safety in Israel.
-Presented at ISTRC Conference, Technion, January 2026.
+
+Presented at:
+- **ISTRC Conference, Technion** — January 2025 (Phase 3a)
+- **Tel Aviv Municipality** — twice, as part of ongoing road safety collaboration (Phase 3a)
+- **Maven Analytics** — public showcase (Phase 3a)
 
 ---
 
@@ -14,14 +18,24 @@ Presented at ISTRC Conference, Technion, January 2026.
 
 ## What this report covers
 
-A focused crash exploration of **e-scooters only** in Tel Aviv, using the full CBS microdata from 2013 through 2025. This phase introduced QGIS-based spatial analysis (Tel Aviv quarters and street-level mapping) and produced the foundational data model that Phase 4 builds on.
+A focused crash exploration of **e-scooters in Tel Aviv**, using the full CBS microdata from 2013 through 2025. The analysis goes beyond crash counts to examine severity patterns, spatial distribution, counterpart dynamics, and the gap between official CBS statistics and rider survey data.
 
-This repo contains **two sub-stages** captured as git tags:
+This repo contains **two sub-stages**:
 
-| Tag | Scope | Data cut | Notes |
-|---|---|---|---|
-| `v3a` | E-scooters in Tel Aviv vs other micromobility modes and national data | CBS 2013–Jun 2025 | Original ISTRC submission version |
-| `v3b` | Same scope, full 2025 calendar year | CBS 2013–Dec 2025 | Updated after year-end data release |
+| Stage | Data cut | Key additions |
+|---|---|---|
+| **3a** | CBS 2013–Jun 2025 | Spatial layers via QGIS; ISTRC + Municipality presentations |
+| **3b** | CBS 2013–Dec 2025 | Full year data; spatial integration moved into PBI (Python); multi-party matrix coverage; model rebuilt with MCP tooling |
+
+### Spatial integration (QGIS + Power BI)
+
+Both stages use Tel Aviv's official administrative boundaries:
+- **9 Tel Aviv quarters** — crash density aggregated at quarter level, mapped in Power BI
+- **Street-level layer** — individual street crash counts, enabling hotspot identification
+
+In **Phase 3a**, the spatial join (assigning a quarter number to each accident based on GPS coordinates) was a separate multi-step process in QGIS, external to Power BI.
+
+In **Phase 3b**, this assignment runs as a **Python script inside Power BI**, so the spatial layer updates automatically whenever the data is refreshed — no manual QGIS steps required.
 
 | Attribute | Value |
 |---|---|
@@ -29,20 +43,54 @@ This repo contains **two sub-stages** captured as git tags:
 | **Years** | 2013–2025 (full calendar years) |
 | **Total accidents** | 9,769 |
 | **Total people involved** | 19,613 |
-| **Vehicle type** | E-Scooter (CBS code 21) only |
-| **Tool** | Power BI Desktop + QGIS |
+| **Vehicle type** | E-Scooter (CBS code 21) |
+| **Tools** | Power BI Desktop · QGIS · Python |
 | **Data sources** | CBS Israel crash microdata |
 
 ---
 
 ## Key findings
 
-- **9,769 e-scooter accidents** in Tel Aviv across 2013–2025 — crash volume rose sharply from 486 (2013) to a peak of 886 (2022)
-- Crash classification: **583 solo** (6%) · **8,882 two-party** (91%) · **304 multi-party** (3%)
-- **Solo crash underreporting**: CBS solo rate (~8–12%) vs Tel Aviv rider survey (~69–77%) — CBS captures only ~5% of real solo crash events
-- **Volume ≠ Severity** confirmed at e-scooter level: high-volume years/locations are not the same as high-severity ones
-- **QGIS analysis**: crash density mapped at Tel Aviv quarter level (9 quarters) and at individual street level
-- **AI visuals**: Key Influencers identifies overturning as a 4.77× severity multiplier
+### Volume and trend
+- **9,769 e-scooter accidents** in Tel Aviv across 2013–2025
+- Crash volume rose from 486 (2013) to a peak of **886 (2022)**, then declined — 796 in 2025
+- The decline after 2022 coincides with tighter regulation of shared e-scooter operators
+
+### Crash classification
+- **583 solo** (6%) · **8,882 two-party** (91%) · **304 multi-party** (3%)
+- The dominant counterpart in two-party crashes is **private car** — consistent across years
+
+### The solo crash problem
+- CBS solo crash rate: ~6–8% of recorded accidents
+- Tel Aviv rider survey solo rate: **69–77% of injured riders**
+- CBS captures approximately **5% of real solo crash events** — the vast majority go unreported
+- This underreporting gap is structural: solo crashes rarely result in police involvement
+
+### Volume ≠ Severity
+- High-volume years and streets are **not** the same as high-severity ones
+- Severity is driven by collision type, road conditions, and whether safety equipment was worn — not by raw volume
+- **Key Influencers (AI visual)**: overturning identified as a **4.77× severity multiplier**
+
+### Spatial findings
+- Crash density concentrates in Tel Aviv's central quarters
+- Street-level analysis reveals persistent hotspots that are not visible at the city level
+- Quarter-level mapping enables targeted infrastructure prioritization
+
+### Safety device findings
+- CBS data contains a known coding error: "seatbelt" is recorded for e-scooter riders (physically impossible)
+- Corrected: for vehicle types 21 (e-scooter), 23 (e-bike), 15 (bicycle) → belt codes recoded to **Helmet**
+- Helmet usage is the key safety variable for micromobility severity analysis
+
+### Counterpart matrix
+The report includes a **crash counterpart matrix** — a general analytical tool showing total accident counts, injury severity, and statistical significance (p-values) for every vehicle-type pair in the CBS dataset.
+
+- Designed to be applicable to **any crash type** (not micromobility-specific)
+- In this report, filtered to micromobility rows for focused analysis
+- **Phase 3a** coverage: solo + two-party crashes only (97% of all accidents)
+- **Phase 3b** coverage: solo + two-party + **multi-party** (100% — 56,236 multi-party accidents added)
+
+### Scalability
+The entire analytical approach — data model structure, spatial integration, counterpart matrix, natural language Q&A layer — is designed to be **vehicle-agnostic and location-portable**. It can be applied to any vehicle type in the CBS dataset and adapted to any Israeli city using the same methodology.
 
 ### Crash volume by year
 
@@ -67,27 +115,22 @@ The model contains **54 tables** structured with strict prefixes:
 | `fact_` | Core CBS data — `fact_Accidents`, `fact_Involved`, `fact_Vehicles` |
 | `dim_` | Dimension/lookup tables — calendar, vehicle type, quarters, streets |
 | `&` | Calculated bridge/helper tables (party count pipeline, matrix filters) |
-| `_Measures` | All DAX measures (single table) |
-| `survey_` | Tel Aviv Municipality survey data |
+| `_Measures` | All 244 DAX measures, organized into 10 display folders |
+| `survey_` | Tel Aviv Municipality e-scooter rider survey data |
 | `enforcement_` | Tel Aviv Police enforcement records |
 
 ### Party count pipeline (do not modify)
 `&BaseAccidentPartySummary → &MultiPartyIDs → &AccidentMatrixSource → &MatrixAccidentIDs → fact_Accidents[PartyCount]`
 
----
-
-## Key data corrections applied
-
-These are permanent calculated columns/expressions in the model — do not revert:
-
+### Key data corrections
 | Item | Fix |
 |---|---|
-| `fact_Involved[Safety Measures Label]` | CBS code for belt (impossible for e-scooters) → recoded to Helmet for vehicle types 15/21/23 · 141 rows corrected |
+| `fact_Involved[Safety Measures Label]` | Belt code → Helmet for vehicle types 15/21/23 (141 rows) |
 | `fact_Accidents[PartyCount]` | New column: solo=1, two-party=2, multi-party=3 |
-| `&BaseAccidentPartySummary` | Pedestrian count fixed to MIN(1, n) — prevents overcounting |
+| `&BaseAccidentPartySummary` | Pedestrian count capped at MIN(1, n) — prevents overcounting multiple pedestrians as separate parties |
 | `&MatrixAccidentIDs` | Multi-party IDs added; BothDirections cross-filter on 2 relationships |
 
-Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
+See [phase_3b/README.md](phase_3b/README.md) for the full list of model changes introduced in Phase 3b.
 
 ---
 
@@ -100,6 +143,7 @@ Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
 │   ├── From Data to Safer E-Scooter Rides_abstract_ISTRC.docx  ← conference abstract
 │   └── Escooter_demo_Technion.mp4                              ← dashboard demo video (ISTRC Jan 2025)
 └── phase_3b/                                                    ← CBS 2013–Dec 2025 (full year update)
+    └── README.md                                               ← 3a→3b change log
 ```
 
 > **Power BI files (.pbix) are not stored in this repo** due to file size (200+ MB).
@@ -108,6 +152,7 @@ Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
 > - **Phase 3b** (`escooter_TA_upd_0218_noQA.pbix`): [Download](https://1drv.ms/u/c/52d6cdf6c3e9894b/IQDMXQhTmmNISbaw4dqk5CxVAX6SE6758wyWlgIUiIocd-A?e=os5NsL)
 >
 > Maven Analytics showcase (interactive): [mavenshowcase.com/project/53880](https://mavenshowcase.com/project/53880)
+
 ---
 
 ## Data sources
@@ -137,4 +182,3 @@ all modes    micromobility  e-scooters     full integration
 **Nina Garmash, PhD**
 ANYWAY Project (DATA FOR CHANGE) · HIT (Holon Institute of Technology)
 [LinkedIn](https://www.linkedin.com/in/nina-garmash) · [Portfolio](https://ninagarmash.wixsite.com/data-showcase)
-
