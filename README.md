@@ -94,20 +94,20 @@ Full change log: [`docs/raw_data_change_log.md`](docs/raw_data_change_log.md)
 ## Files in this repo
 
 ```
-Road_Accidents_in_Israel-2013-2024/
-├── README.md                         ← this file
-├── CHANGELOG.md                      ← version history
-├── pbix/
-│   └── escooter_TA_new_[date].pbix   ← Power BI Desktop report
-├── data/
-│   └── Solo_vs_TwoParty_FINAL.csv
-│   └── Rider_Demographics_Solo_vs_TwoParty.csv
-└── docs/
-    └── raw_data_change_log.md
-    └── dax_query_patterns.md
-    └── PROJECT_CONTEXT.md
+├── README.md                                                    ← this file
+├── phase_3a/                                                    ← CBS 2013–Jun 2025 (ISTRC submission)
+│   ├── E-Scooter Crashes in TA Report (live PBI).pptx          ← Technion ISTRC conference presentation
+│   ├── From Data to Safer E-Scooter Rides_abstract_ISTRC.docx  ← conference abstract
+│   └── Escooter_demo_Technion.mp4                              ← dashboard demo video (ISTRC Jan 2025)
+└── phase_3b/                                                    ← CBS 2013–Dec 2025 (full year update)
 ```
 
+> **Power BI files (.pbix) are not stored in this repo** due to file size (200+ MB).
+> Download links:
+> - **Phase 3a** (`escooter_TA_jan6_datadct_presented!.pbix`): _[add OneDrive/Drive link]_
+> - **Phase 3b** (`escooter_TA_upd_0218_noQA.pbix`): _[add OneDrive/Drive link]_
+>
+> Maven Analytics showcase (interactive): [mavenshowcase.com/project/53880](https://mavenshowcase.com/project/53880)
 ---
 
 ## Data sources
