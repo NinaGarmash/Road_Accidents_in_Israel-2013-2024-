@@ -18,12 +18,12 @@ Presented at:
 
 ## What this report covers
 
-A focused crash exploration of **e-scooters in Tel Aviv**, using the full CBS microdata from 2013 through 2025. The analysis goes beyond crash counts to examine severity patterns, spatial distribution, counterpart dynamics, and the gap between official CBS statistics and rider survey data.
+A focused crash exploration of **e-scooters in Tel Aviv**, using the full CBS microdata from 2013 through 2025. The analysis goes beyond crash counts to examine severity patterns, spatial distribution, counterpart dynamics.
 
 This repo contains **two sub-stages**:
 
 | Stage | Data cut | Key additions |
-|---|---|---|
+|---|---|
 | **3a** | CBS 2013–Jun 2025 | Spatial layers via QGIS; ISTRC + Municipality presentations |
 | **3b** | CBS 2013–Dec 2025 | Full year data; spatial integration moved into PBI (Python); multi-party matrix coverage; model rebuilt with MCP tooling |
 
@@ -57,14 +57,9 @@ In **Phase 3b**, this assignment runs as a **Python script inside Power BI**, so
 - The decline after 2022 coincides with tighter regulation of shared e-scooter operators
 
 ### Crash classification
-- **583 solo** (6%) · **8,882 two-party** (91%) · **304 multi-party** (3%)
+- **8,882 two-party** (91%) · **304 multi-party** (3%)
 - The dominant counterpart in two-party crashes is **private car** — consistent across years
 
-### The solo crash problem
-- CBS solo crash rate: ~6–8% of recorded accidents
-- Tel Aviv rider survey solo rate: **69–77% of injured riders**
-- CBS captures approximately **5% of real solo crash events** — the vast majority go unreported
-- This underreporting gap is structural: solo crashes rarely result in police involvement
 
 ### Volume ≠ Severity
 - High-volume years and streets are **not** the same as high-severity ones
@@ -86,23 +81,23 @@ The report includes a **crash counterpart matrix** — a general analytical tool
 
 - Designed to be applicable to **any crash type** (not micromobility-specific)
 - In this report, filtered to micromobility rows for focused analysis
-- **Phase 3a** coverage: solo + two-party crashes only (97% of all accidents)
-- **Phase 3b** coverage: solo + two-party + **multi-party** (100% — 56,236 multi-party accidents added)
+- **Phase 3a** coverage: single-party + two-party crashes only (97% of all accidents)
+- **Phase 3b** coverage: single-party + two-party + **multi-party** (100% — 56,236 multi-party accidents added)
 
 ### Scalability
 The entire analytical approach — data model structure, spatial integration, counterpart matrix, natural language Q&A layer — is designed to be **vehicle-agnostic and location-portable**. It can be applied to any vehicle type in the CBS dataset and adapted to any Israeli city using the same methodology.
 
 ### Crash volume by year
 
-| Year | Accidents | Solo |
-|---|---|---|
-| 2019 | 787 | 40 |
-| 2020 | 799 | 64 |
-| 2021 | 842 | 70 |
-| 2022 | 886 | 79 |
-| 2023 | 740 | 64 |
-| 2024 | 845 | 58 |
-| 2025 | 796 | 51 |
+| Year | Accidents |
+|---|---|
+| 2019 | 787 |
+| 2020 | 799 |
+| 2021 | 842 |
+| 2022 | 886 |
+| 2023 | 740 |
+| 2024 | 845 |
+| 2025 | 796 |
 
 ---
 
@@ -126,7 +121,7 @@ The model contains **54 tables** structured with strict prefixes:
 | Item | Fix |
 |---|---|
 | `fact_Involved[Safety Measures Label]` | Belt code → Helmet for vehicle types 15/21/23 (141 rows) |
-| `fact_Accidents[PartyCount]` | New column: solo=1, two-party=2, multi-party=3 |
+| `fact_Accidents[PartyCount]` | New column: single-party=1, two-party=2, multi-party=3 |
 | `&BaseAccidentPartySummary` | Pedestrian count capped at MIN(1, n) — prevents overcounting multiple pedestrians as separate parties |
 | `&MatrixAccidentIDs` | Multi-party IDs added; BothDirections cross-filter on 2 relationships |
 

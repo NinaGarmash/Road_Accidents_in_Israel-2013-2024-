@@ -12,7 +12,7 @@ Full source: [Phase 3b Model Update Summary (Google Docs)](https://docs.google.c
 |---|---|---|
 | **Data cut** | CBS 2013–Jun 2025 | CBS 2013–Dec 2025 (full year) |
 | **Spatial integration** | Multi-step QGIS process (external to PBI) | Python script inside Power BI — auto-updates on refresh |
-| **Counterpart matrix coverage** | Solo + two-party (97% of crashes) | Solo + two-party + **multi-party** (100%) |
+| **Counterpart matrix coverage** | Single-party + two-party (97% of crashes) | Single-party + two-party + **multi-party** (100%) |
 | **Model tooling** | Manual Power BI Desktop edits | Rebuilt with [MCP Power BI Modeling Server](https://github.com/jonathanscholtes/PowerBI-MCP-Server) |
 | **Measure organization** | Flat (all measures unstructured) | 244 measures in 10 display folders |
 
@@ -33,14 +33,14 @@ Fixed: pedestrian contribution capped at **MIN(1, n)** per accident using the `r
 
 ## Multi-party accident coverage
 
-Phase 3a's counterpart matrix covered only **solo and two-party crashes** (97% of all accidents).
+Phase 3a's counterpart matrix covered only **single-party and two-party crashes** (97% of all accidents).
 
 Phase 3b adds a new calculated table identifying **56,236 multi-party accidents** (VehicleCount + PedestrianCount ≥ 3).
 The `fact_Accidents[PartyCount]` column now classifies every accident:
 
 | Category | Count |
 |---|---|
-| Solo | 121,709 |
+
 | Two-party | 545,052 |
 | Multi-party | 56,236 |
 
@@ -69,7 +69,7 @@ All 244 DAX measures were reorganized from a flat list into **10 display folders
 
 | Folder | Contents |
 |---|---|
-| Accidents | Total counts, solo/two-party/multi-party splits |
+| Accidents | Total counts by party count category |
 | Severity | Injury severity distribution |
 | People Involved | Involvement counts by role and vehicle type |
 | Statistical Analysis | p-values, chi-square tests for counterpart matrix |
