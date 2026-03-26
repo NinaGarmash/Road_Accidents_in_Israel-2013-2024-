@@ -222,8 +222,8 @@ all modes    micromobility  e-scooters     full integration
                            (this repo)    + surveys + enforcement
 ```
 
-← **Phase 2**: [TLV_Micromobility_Phase2](../TLV_Micromobility_Phase2)
-→ **Phase 4**: [Escooter_TLV_Safety_Phase4](../Escooter_TLV_Safety_Phase4)
+← **Phase 2**: [Phase2-TLV-Micromobility-Crash-Analysis](../Phase2-TLV-Micromobility-Crash-Analysis)
+→ **Phase 4**: [Phase4-Escooter-Risks-TelAviv-Multiple-Perspectives](https://github.com/NinaGarmash/Phase4-Escooter-Risks-TelAviv-Multiple-Perspectives)
 
 ---
 
